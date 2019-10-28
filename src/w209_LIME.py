@@ -44,7 +44,7 @@ test_with_scores = test_with_scores.reset_index() # give new index
 
 
 # write to csv
-test_with_scores.to_csv("test_with_scores_example_1.csv")
+test_with_scores.to_csv("./data/test_with_scores_example_1.csv")
 
 
 # EXPLAINING ONE INSTANCE, we will need a way to allow users to select each text observation and view the EXPLAINATION for it
@@ -57,6 +57,6 @@ def explain_frame(df,class_names,model,idx = 83,num_features = 6):
 d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 6))
                   for val in test_with_scores['index'].values[0:20])
 json = json.dumps(d)
-f = open("lime_by_row_example_1_20subset.json","w")
+f = open("./data/lime_by_row_example_1_20subset.json","w")
 f.write(json)
 f.close()
