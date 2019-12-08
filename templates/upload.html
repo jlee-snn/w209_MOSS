@@ -1,0 +1,53 @@
+<!doctype html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/main.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="/static/app.js" charset="utf-8"></script>
+	<script>
+	$(document).ready(function() {
+    $("#btnFetch").click(function() {
+      // disable button
+      $(this).prop("disabled", false);
+      // add spinner to button
+      $(this).html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+      );
+    });
+	});
+	</script>
+</head>
+<body>
+	<title>Python Flask Multiple Files Upload Example</title>
+	<h2>Select file(s) to upload</h2>
+	<p>
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+			  <li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		  {% endif %}
+		{% endwith %}
+	</p>
+	<form method="post" action="/" enctype="multipart/form-data">
+	    <dl>
+			<p>
+				<input type="file" name="files[]" multiple="true" autocomplete="off" required>
+			</p>
+	    </dl>
+	    <p>
+  		<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
+		</p>
+	</form>
+
+	</form>
+	</div>
+</body>
