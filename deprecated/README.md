@@ -58,7 +58,7 @@ $ source pymoss/bin/activate
 
 2. Run the development server:
   ```
-  $ python3 app.py
+  $ python3 w209_MOSS/main.py
   ```
 
 3. Navigate to [http://localhost:5000](http://localhost:5000)
