@@ -112,23 +112,22 @@ The above copyright notice and this permission notice shall be included in all c
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Simplifying Model interpretability for Data Scientists</h5>
+                <h4 class="card-title">Simplifying Model interpretability for Data Scientists</h5>
               </div>
-              <div class="card-body ">
+              <div class="card-body">
                 <p>Model interpretability is a common challenge that many data scientists face, especially with black box models such as neural networks and decision trees. To help address this, the MOSS dashboard provides visualizations from the data results that are provided by LIME (Local Interpretable Model-agnostic Explanations), a novel explanation technique that explains the prediction of any classifier in an interpretable and faithful manner by learning a interpretable model locally around the prediction.</p>
-
                 <p>To do this, our proof-of-concept dashboard tool ingests a binary classification model for text classification on whether the email is about Christianity or Atheism and relevant test data and leveraging the LIME python library, displays its results in a human-readable manner. Below are instructions to do this:</p>
-
-                <li>Change the name of target variable to “target”</li>
-                <li>Select and load in a model pickle file and csv test data</li>
-                <li>Interpret dashboard results</li>
-
-                <p></p>
+                <ol>
+                  <li>Change the name of target variable to “target”</li>
+                  <li>Select and load in a model pickle file and csv test data</li>
+                  <li>Interpret dashboard results</li>
+                </ol>
                 <p>The dashboard is divided into 3 sections:</p>
-
-                <p>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism
-                The unstructured text from the test data with key words highlighted in the top right
-                A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</p>
+                <ol>
+                  <li>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism</li>
+                  <li>The unstructured text from the test data with key words highlighted in the top right</li>
+                  <li>A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</li>
+              </ol>
               </div>
               <div class="card-footer ">
                 <hr>
