@@ -1,6 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+
+  <!-- Bootstrap core CSS -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -12,42 +15,162 @@
 	<script src="/static/app.js" charset="utf-8"></script>
 	<script>
 	$(document).ready(function() {
-    $("#btnFetch").click(function() {
-      // disable button
-      $(this).prop("disabled", false);
-      // add spinner to button
-      $(this).html(
-        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
-      );
-    });
+		$("#btnFetch").click(function() {
+			// disable button
+			$(this).prop('disabled',false);
+			setTimeout(function(){
+				 // enable click after 1 second
+				 $('.disable-btn').prop('disabled',true);
+			},1000); // 1 second delay
+			// add spinner to button
+			$(this).html(
+				`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+			);
+
+
+
+
+		});
 	});
 	</script>
-</head>
-<body>
-	<title>Python Flask Multiple Files Upload Example</title>
-	<h2>Select file(s) to upload</h2>
-	<p>
-		{% with messages = get_flashed_messages() %}
-		  {% if messages %}
-			<ul class=flashes>
-			{% for message in messages %}
-			  <li>{{ message }}</li>
-			{% endfor %}
-			</ul>
-		  {% endif %}
-		{% endwith %}
-	</p>
-	<form method="post" action="/" enctype="multipart/form-data">
-	    <dl>
-			<p>
-				<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-			</p>
-	    </dl>
-	    <p>
-  		<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
-		</p>
-	</form>
+  <!-- Custom styles for this template -->
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet">
 
-	</form>
-	</div>
+	<title>Model Ooutput Score Scrutizer Dashboard</title>
+
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">w209 Final Project </div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Data Summary</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Model Summary</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">About</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container">
+				<div class="row">
+				<div class="col">
+        <h3 class="mt-4">Upload Artifacts</h1>
+        <p>Add instructions somewhere here.</p>
+        <p>Content placeholder</p>
+				<h3>Select file(s) to upload</h3>
+				<p>
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<ul class=flashes>
+						{% for message in messages %}
+							<li>{{ message }}</li>
+						{% endfor %}
+						</ul>
+						{% endif %}
+					{% endwith %}
+				</p>
+				<form method="post" action="/" enctype="multipart/form-data">
+						<dl>
+						<p>
+							<input type="file" name="files[]" multiple="true" autocomplete="off" required>
+						</p>
+						</dl>
+						<p>
+						<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
+					</p>
+				</form>
+
+			  </div>
+
+				<div class="col-6">
+					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+				  <div class="card-header">Header</div>
+				  <div class="card-body">
+				    <h5 class="card-title">Primary card title</h5>
+				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				</div>
+
+				<div class="col-2">
+					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+					<div class="card-header">Header</div>
+					<div class="card-body">
+						<h5 class="card-title">Primary card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				</div>
+
+
+				</div>
+
+				</div>
+
+      </div>
+
+			<div class="container-fluid">
+        <h3 class="mt-4">Testing</h1>
+        <p>Add instructions somewhere here.</p>
+        <p>Content placeholder</p>
+
+      </div>
+
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
 </body>
+
+</html>

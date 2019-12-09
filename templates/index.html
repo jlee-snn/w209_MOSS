@@ -1,280 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 
-
-<title>Python Flask Multiple Files Upload Example</title>
-<h2>Select file(s) to upload</h2>
-<p>
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
-<form method="post" action="/" enctype="multipart/form-data">
-    <dl>
-		<p>
-			<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
-</form>
-<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/main.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/main.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="/static/app.js" charset="utf-8"></script>
 	<script>
-		d3.select("#buttons").datum({ portion: 0 });
-		// the chain select here pushes the datum onto the up and down buttons also
-		d3.select("#buttons")
-		  .select("#previous")
-		  .on("click", function(d) {
-		    d.portion -= 20;
-		    redraw(d.portion);
-		  });
-		d3.select("#buttons")
-		  .select("#next")
-		  .on("click", function(d) {
-		    d.portion += 20;
-		    redraw(d.portion);
-		  });
+	$(document).ready(function() {
+		$("#btnFetch").click(function() {
+			// disable button
+			$(this).prop('disabled',false);
+			setTimeout(function(){
+				 // enable click after 1 second
+				 $('.disable-btn').prop('disabled',true);
+			},1000); // 1 second delay
+			// add spinner to button
+			$(this).html(
+				`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+			);
 
-		function redraw(start) {
-		  d3.select("table")
-		    .selectAll("tr")
-		    .style("display", function(d, i) {
-		      return i >= start && i < start + 20 ? null : "none";
-		    });
-		}
 
-		d3.csv(
-		  "https://gist.githubusercontent.com/jlee-snn/761e57be4a87373f99c49eb420dc4420/raw/e351fd0ccc5f7698230e0955fe44493047d120b8/test_with_scores.csv",
-		  function(error, data) {
-		    if (error) {
-		      console.log("There's an error");
-		    }
-		    // We'll be using simpler data as values, not objects.
-		    var temp_array = [];
-		    data.forEach(function(d, i) {
-		      // now we add another data object value, a calculated value.
-		      // here we are making strings into numbers using type coercion
-		      d.index = +d.index;
-		      d.Text = d.Text;
-		      d.atheism = +d.atheism;
-		      d.christian = +d.christian;
 
-		      // Add a new array with the values of each:
-		      temp_array.push([
-		        d.index,
-		        d.Text,
-		        d3.format(".1%")(d.atheism),
-		        d3.format(".1%")(d.christian)
-		      ]);
-		    });
-		    console.log(data);
-		    console.log(temp_array);
-		    // create table
-		    var table = d3.select("#emailist").append("table");
-		    // create table header
-		    var columns = ["Index", "Text", "Atheism", "Christian"];
-		    table
-		      .append("thead")
-		      .append("tr")
-		      .selectAll("th")
-		      .data(columns)
-		      .enter()
-		      .append("th")
-		      .text(function(d) {
-		        return d;
-		      });
-		    // create table body
-		    table
-		      .append("tbody")
-		      .selectAll("tr")
-		      .data(temp_array)
-		      .enter()
-		      .append("tr")
-		      .selectAll("td")
-		      .data(function(d) {
-		        console.log(d);
-		        return d;
-		      })
-		      .enter()
-		      .append("td")
-		      .text(function(d) {
-		        return d;
-		      })
-		      .style("max-width", "800px")
-		      .style("overflow", "hidden")
-		      .style("text-overflow", "ellipsis")
-		      .style("white-space", "nowrap");
-		    // if we want to show more, enable the code below
-		    // .style("white-space", "wrap")
-		    redraw(0);
-		  }
-		);
 
-		function wrapText(context, text, x, y, maxWidth, lineHeight) {
-		  var words = text.split(" ");
-		  var line = "";
-
-		  for (var n = 0; n < words.length; n++) {
-		    var testLine = line + words[n] + " ";
-		    var metrics = context.measureText(testLine);
-		    var testWidth = metrics.width;
-		    if (testWidth > maxWidth && n > 0) {
-		      context.fillText(line, x, y);
-		      line = words[n] + " ";
-		      y += lineHeight;
-		    } else {
-		      line = testLine;
-		    }
-		  }
-		  context.fillText(line, x, y);
-		}
-
-		d3.csv(
-		  "https://raw.githubusercontent.com/jlee-snn/w209_MOSS/master/test_with_scores_example_1.csv",
-		  function(error, data) {
-		    if (error) {
-		      console.log("There's an error");
-		    }
-		    var temp_array = [];
-		    data.forEach(function(d, i) {
-		      d.index = +d.index;
-		      d.Text = d.Text;
-		      temp_array.push([d.index, d.Text]);
-		    });
-
-		    var canvas = document.getElementById("myCanvas");
-		    var ctx = canvas.getContext("2d");
-		    var maxWidth = 400;
-		    var lineHeight = 25;
-		    var x = (canvas.width - maxWidth) / 2;
-		    var y = 60;
-		    // currently hardcoded to the first example.
-		    var text = temp_array[0][1];
-		    ctx.font = "15px Arial";
-		    wrapText(ctx, text, x, y, maxWidth, lineHeight);
-		  }
-		);
-
-		var margin = { top: 20, right: 30, bottom: 40, left: 30 },
-		  width = 600 - margin.left - margin.right,
-		  height = 500 - margin.top - margin.bottom;
-
-		var x = d3.scale.linear().range([0, width]);
-
-		var y = d3.scale.ordinal().rangeRoundBands([0, height], 0.2);
-
-		var xAxis = d3.svg
-		  .axis()
-		  .scale(x)
-		  .orient("bottom");
-
-		var yAxis = d3.svg
-		  .axis()
-		  .scale(y)
-		  .orient("left")
-		  .tickSize(0)
-		  .tickPadding(6);
-
-		var svg = d3
-		  .select("#barchart")
-		  .append("svg")
-		  .attr("width", width + margin.left + margin.right)
-		  .attr("height", height + margin.top + margin.bottom)
-		  .append("g")
-		  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-		d3.csv(
-		  "https://raw.githubusercontent.com/iatechicken/temp_repo/master/singlecsv.csv",
-		  type,
-		  function(error, data) {
-		    x.domain(
-		      d3.extent(data, function(d) {
-		        return d.value;
-		      })
-		    ).nice();
-		    y.domain(
-		      data.map(function(d) {
-		        return d.word;
-		      })
-		    );
-
-		    svg
-		      .selectAll(".bar")
-		      .data(data)
-		      .enter()
-		      .append("rect")
-		      .attr("class", function(d) {
-		        return "bar bar--" + (d.value < 0 ? "negative" : "positive");
-		      })
-		      .attr("x", function(d) {
-		        return x(Math.min(0, d.value));
-		      })
-		      .attr("y", function(d) {
-		        return y(d.word);
-		      })
-		      .attr("width", function(d) {
-		        return Math.abs(x(d.value) - x(0));
-		      })
-		      .attr("height", y.rangeBand());
-
-		    svg
-		      .append("g")
-		      .attr("class", "x axis")
-		      .attr("transform", "translate(0," + height + ")")
-		      .call(xAxis);
-
-		    svg
-		      .append("g")
-		      .attr("class", "y axis")
-		      .attr("transform", "translate(" + x(0) + ",0)")
-		      .call(yAxis);
-		  }
-		);
-
-		function type(d) {
-		  d.value = +d.value;
-		  return d;
-		}
-
+		});
+	});
 	</script>
+  <!-- Custom styles for this template -->
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	<title>Model Ooutput Score Scrutizer Dashboard</title>
+
 
 </head>
 
 <body>
-  <p>This table shows the prediction probability for each example </p>
-  <div id="table"></div>
-  <div id="buttons">
-    <button id="previous">PREV</button>
-    <button id="next">NEXT</button>
-  </div>
 
-  <div class="container-fluid">
-    <div class="row" id="bigpane">
-      <div class="col-sm-6 col-md-6 col-lg-6" id="barchart" style="border:1px solid #d3d3d3;"></div>
-      <div class="col-sm-6 col-md-6 col-lg-6" id="email">
-          <canvas id="myCanvas" width="700" height="505" style="border:1px solid #d3d3d3;">Your browser does not support canvas.</canvas>
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">w209 Final Project </div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Data Summary</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Model Summary</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">About</a>
       </div>
     </div>
-    <div class="row" id="emailist" style="border:1px solid #d3d3d3;"></div>
-  </div>
+    <!-- /#sidebar-wrapper -->
 
-  <script src="app.js"></script>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container">
+				<div class="row">
+				<div class="col">
+        <h3 class="mt-4">Upload Artifacts</h1>
+        <p>Add instructions somewhere here.</p>
+        <p>Content placeholder</p>
+				<h3>Select file(s) to upload</h3>
+				<p>
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<ul class=flashes>
+						{% for message in messages %}
+							<li>{{ message }}</li>
+						{% endfor %}
+						</ul>
+						{% endif %}
+					{% endwith %}
+				</p>
+				<form method="post" action="/" enctype="multipart/form-data">
+						<dl>
+						<p>
+							<input type="file" name="files[]" multiple="true" autocomplete="off" required>
+						</p>
+						</dl>
+						<p>
+						<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
+					</p>
+				</form>
+
+			  </div>
+
+				<div class="col-6">
+					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+				  <div class="card-header">Header</div>
+				  <div class="card-body">
+				    <h5 class="card-title">Primary card title</h5>
+				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				</div>
+
+				<div class="col-2">
+					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+					<div class="card-header">Header</div>
+					<div class="card-body">
+						<h5 class="card-title">Primary card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				</div>
+
+
+				</div>
+
+				</div>
+
+      </div>
+
+			<div class="container-fluid">
+        <h3 class="mt-4">Testing</h1>
+        <p>Add instructions somewhere here.</p>
+        <p>Content placeholder</p>
+
+      </div>
+
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
 </body>
+
 </html>
