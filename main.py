@@ -42,7 +42,7 @@ def explain_frame(df,class_names,model,idx = 100,num_features =6):
 
 @app.route('/')
 def upload_form():
-	return render_template('upload.html')
+	return render_template('dashboard.html')
 
 @app.route('/', methods=['POST'])
 def upload_file():
