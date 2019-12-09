@@ -19,7 +19,6 @@ from lime.lime_text import LimeTextExplainer
 import json
 import pickle
 from sklearn.externals import joblib
-import lime
 
 UPLOAD_FOLDER = '/Users/Joseph_S_Lee/Repos/test_moss/uploads'
 
