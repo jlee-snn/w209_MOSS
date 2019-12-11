@@ -89,8 +89,7 @@ def upload_file():
 
 
 		test_with_scores = test_with_scores.reset_index() # give new index
-        # switching from csv to json
-		test_with_scores.to_json(orient = 'records', path_or_buf = "/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.json")
+		test_with_scores.to_csv("/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.csv")
 		#d3_tbl = test_with_scores.to_dict(orient='records')
 		test_with_scores.to_json(orient = 'records', path_or_buf = "/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.json")
 
