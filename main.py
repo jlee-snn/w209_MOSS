@@ -89,7 +89,8 @@ def upload_file():
 
 
 		test_with_scores = test_with_scores.reset_index() # give new index
-		test_with_scores.to_csv("/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.csv")
+        # switching from csv to json
+		test_with_scores.to_json(orient = 'records', path_or_buf = "/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.json")
 		#d3_tbl = test_with_scores.to_dict(orient='records')
 
 		d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 6))
@@ -103,7 +104,7 @@ def upload_file():
 
 
 		username='jlee-snn'
-		password='Bleuberry1234$'
+		password= XXXXXXXXXXXX
 		filename = "test_with_scores.csv"
 		filename2 = "lime_by_row_example_1_20subset.json"
 
