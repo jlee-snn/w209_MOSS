@@ -4,84 +4,90 @@
 <head>
 
   <!-- Bootstrap core CSS -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/main.css">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script src="/static/app.js" charset="utf-8"></script>
-	<script>
-	$(document).ready(function() {
-		$("#btnFetch").click(function() {
-			// disable button
-			$(this).prop('disabled',false);
-			setTimeout(function(){
-				 // enable click after 1 second
-				 $('.disable-btn').prop('disabled',true);
-			},1000); // 1 second delay
-			// add spinner to button
-			$(this).html(
-				`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
-			);
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/main.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="/static/app.js" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 
-
-
-
-		});
-	});
-	</script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css">
+  <script>
+    $(document).ready(function() {
+      $("#btnFetch").click(function() {
+        // disable button
+        $(this).prop('disabled', false);
+        setTimeout(function() {
+          // enable click after 1 second
+          $('.disable-btn').prop('disabled', true);
+        }, 1000); // 1 second delay
+        // add spinner to button
+        $(this).html(
+          `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+        );
+      });
+    });
+  </script>
   <!-- Custom styles for this template -->
   <link href="/static/css/simple-sidebar.css" rel="stylesheet">
 
-	<title>Model Ooutput Score Scrutizer Dashboard</title>
-
+  <title>Model Ooutput Score Scrutizer Dashboard</title>
 
 </head>
 
 <body>
-	<title>Python Flask Multiple Files Upload Example</title>
-	<div>
-		<h1><center>MOSS Dashboard</center></h1>
-		<h2><center>Select file(s) to upload</center></h2>
-		<p>
-			{% with messages = get_flashed_messages() %}
-			{% if messages %}
-				<ul class=flashes>
-				{% for message in messages %}
-				<li>{{ message }}</li>
-				{% endfor %}
-				</ul>
-			{% endif %}
-			{% endwith %}
-		</p>
-		<form method="post" action="/" enctype="multipart/form-data">
-			<dl>
-				<p>
-					<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-				</p>
-			</dl>
-			<p>
-			<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
-			</p>
-		</form>
-	</div>
+  <title>Python Flask Multiple Files Upload Example</title>
+  <div>
+    <h1>
+      <center>MOSS Dashboard</center>
+    </h1>
+    <h2>
+      <center>Select file(s) to upload</center>
+    </h2>
+    <p>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </p>
+    <form method="post" action="/" enctype="multipart/form-data">
+      <dl>
+        <p>
+          <input type="file" name="files[]" multiple="true" autocomplete="off" required>
+        </p>
+      </dl>
+      <p>
+        <button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
+      </p>
+    </form>
+  </div>
 
-	<div>
-		<h2><center>MOSS Dashboard Usage</center></h2>
-		<h4 style="margin: 30px 30px;">Simplifying Model interpretability for Data Scientists</h4>
-		<p style="margin: 30px 30px;">Model interpretability is a common challenge that many data scientists face, especially with black box models such as neural networks and decision trees. To help address this, the MOSS dashboard provides visualizations from the data results that are provided by LIME (Local Interpretable Model-agnostic Explanations), a novel explanation technique that explains the prediction of any classifier in an interpretable and faithful manner by learning a interpretable model locally around the prediction. </p>
-		<p style="margin: 30px 30px;">The dashboard is divided into 3 sections:</p>
-		<ol style="margin: 30px 30px;">
-			<li>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism </li>
-			<li>The unstructured text from the test data with key words highlighted in the top right</li>
-			<li>A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</li>
-		</ol>
-	</div>
+  <div>
+    <h2>
+      <center>MOSS Dashboard Usage</center>
+    </h2>
+    <h4 style="margin: 30px 30px;">Simplifying Model interpretability for Data Scientists</h4>
+    <p style="margin: 30px 30px;">Model interpretability is a common challenge that many data scientists face, especially with black box models such as neural networks and decision trees. To help address this, the MOSS dashboard provides visualizations from the data results that are
+      provided by LIME (Local Interpretable Model-agnostic Explanations), a novel explanation technique that explains the prediction of any classifier in an interpretable and faithful manner by learning a interpretable model locally around the prediction.
+    </p>
+    <p style="margin: 30px 30px;">The dashboard is divided into 3 sections:</p>
+    <ol style="margin: 30px 30px;">
+      <li>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism </li>
+      <li>The unstructured text from the test data with key words highlighted in the top right</li>
+      <li>A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</li>
+    </ol>
+  </div>
 
-  	<div class="d-flex" id="wrapper">
+  <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
@@ -89,7 +95,7 @@
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Data Summary</a>
-				<a href="#" class="list-group-item list-group-item-action bg-light">Model Summary</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Model Summary</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">About</a>
       </div>
     </div>
@@ -129,89 +135,290 @@
       </nav>
 
       <div class="container">
-				<div class="row">
-				<div class="col">
-        <h3 class="mt-4">Upload Artifacts</h1>
-			<p style="margin: 30px 30px;">To do this, our proof-of-concept dashboard tool ingests a binary classification model for text classification on whether the email is about Christianity or Atheism and relevant test data and leveraging the LIME python library, displays its results in a human-readable manner. Below are instructions to do this: </p>
-			<ol style="margin: 30px 30px;">
-				<li>Change the name of target variable to “target”</li>
-				<li>Select and load in a model pickle file and csv test data</li>
-				<li>Interpret dashboard results</li>
-			</ol>	
-				<h3>Select file(s) to upload</h3>
-				<p>
-					{% with messages = get_flashed_messages() %}
-						{% if messages %}
-						<ul class=flashes>
-						{% for message in messages %}
-							<li>{{ message }}</li>
-						{% endfor %}
-						</ul>
-						{% endif %}
-					{% endwith %}
-				</p>
-				<form method="post" action="/" enctype="multipart/form-data">
-						<dl>
-						<p>
-							<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-						</p>
-						</dl>
-						<p>
-						<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
-					</p>
-				</form>
+        <div class="row">
+          <div class="col">
+            <h3 class="mt-4">Upload Artifacts</h1>
+              <p style="margin: 30px 30px;">To do this, our proof-of-concept dashboard tool ingests a binary classification model for text classification on whether the email is about Christianity or Atheism and relevant test data and leveraging the LIME python library, displays its
+                results in a human-readable manner. Below are instructions to do this: </p>
+              <ol style="margin: 30px 30px;">
+                <li>Change the name of target variable to “target”</li>
+                <li>Select and load in a model pickle file and csv test data</li>
+                <li>Interpret dashboard results</li>
+              </ol>
+              <h3>Select file(s) to upload</h3>
+              <p>
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <ul class=flashes>
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %} {% endwith %}
+              </p>
+              <form method="post" action="/" enctype="multipart/form-data">
+                <dl>
+                  <p>
+                    <input type="file" name="files[]" multiple="true" autocomplete="off" required>
+                  </p>
+                </dl>
+                <p>
+                  <button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
+                </p>
+              </form>
 
-			  </div>
+          </div>
 
-				<div class="col-6">
-					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-				  <div class="card-header">Header</div>
-				  <div class="card-body">
-				    <h5 class="card-title">Primary card title</h5>
-				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  </div>
-				</div>
+          <div class="col-6">
+            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+              <div class="card-header">Header</div>
+              <div class="card-body">
+                <h5 class="card-title">Primary card title</h5>
+                <p class="card-text">short test</p>
+              </div>
+            </div>
 
-				<div class="col-2">
-					<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-					<div class="card-header">Header</div>
-					<div class="card-body">
-						<h5 class="card-title">Primary card title</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				</div>
+            <div class="col-5">
+              <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header">H2</div>
+                <div class="card-body">
+                  <h5 class="card-title">P2</h5>
+                  <p class="card-text">l3</p>
+                </div>
 
+              </div>
 
-				</div>
+            </div>
 
-				</div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6" , id="d3chart">
+
+                <script>
+                  var margin = {
+                      top: 20,
+                      right: 30,
+                      bottom: 40,
+                      left: 30
+                    },
+                    width = 500 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
+                  var x = d3.scale.linear()
+                    .range([0, width]);
+                  var y = d3.scale.ordinal()
+                    .rangeRoundBands([0, height], 0.2);
+                  var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom");
+                  var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left")
+                    .tickSize(0)
+                    .tickPadding(6);
+                  var svg = d3.select("#d3chart").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                  d3.csv("https://raw.githubusercontent.com/iatechicken/temp_repo/master/singlecsv.csv", type, function(error, data) {
+                    x.domain(d3.extent(data, function(d) {
+                      return d.value;
+                    })).nice();
+                    y.domain(data.map(function(d) {
+                      return d.word;
+                    }));
+                    svg.selectAll(".bar")
+                      .data(data)
+                      .enter().append("rect")
+                      .attr("class", function(d) {
+                        return "bar bar--" + (d.value < 0 ? "negative" : "positive");
+                      })
+                      .attr("x", function(d) {
+                        return x(Math.min(0, d.value));
+                      })
+                      .attr("y", function(d) {
+                        return y(d.word);
+                      })
+                      .attr("width", function(d) {
+                        return Math.abs(x(d.value) - x(0));
+                      })
+                      .attr("height", y.rangeBand());
+                    svg.append("g")
+                      .attr("class", "x axis")
+                      .attr("transform", "translate(0," + height + ")")
+                      .call(xAxis);
+                    svg.append("g")
+                      .attr("class", "y axis")
+                      .attr("transform", "translate(" + x(0) + ",0)")
+                      .call(yAxis);
+                  });
+
+                  function type(d) {
+                    d.value = +d.value;
+                    return d;
+                  }
+                </script>
+
+              </div>
+              <div class="col-lg-6" , id="highlight_c">
+                <canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+
+</canvas>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="container mb-3 mt-3">
+                <div class="table-responsive">
+                  <h1>MOSS Datatable</h1>
+                  <br />
+                  <table class="table table-bordered table-striped" id="test_table">
+                    <thead>
+                      <tr>
+                        <th>index</th>
+                        <th>text</th>
+                        <th>atheism</th>
+                        <th>christian</th>
+                      </tr>
+                    </thead>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /#page-content-wrapper -->
 
       </div>
+      <!-- /#wrapper -->
 
-			<div class="container-fluid">
-        <h3 class="mt-4">Testing</h1>
-        <p>Add instructions somewhere here.</p>
-        <p>Content placeholder</p>
+      <!-- Bootstrap core JavaScript -->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      </div>
+      <!-- Menu Toggle Script -->
+      <script>
+        $("#menu-toggle").click(function(e) {
+          e.preventDefault();
+          $("#wrapper").toggleClass("toggled");
+        });
+      </script>
+      <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+      <script>
+        $(document).ready(function() {
+          $.getJSON("https://raw.githubusercontent.com/iatechicken/temp_repo/master/test_with_scores.json", function(data) {
+            var table = $('#test_table').DataTable({
+              data: data,
+              columns: [{
+                  data: "index"
+                },
+                {
+                  data: "Text",
+                  "width": "70%"
+                },
+                {
+                  data: "atheism",
+                  render: function(data, type, row) {
+                    return (data * 100).toFixed(2) + "%"
+                  }
+                },
+                {
+                  data: "christian",
+                  render: function(data, type, row) {
+                    return (data * 100).toFixed(2) + "%"
+                  }
+                }
+              ],
+              select: {
+                style: 'single'
+              }
+            });
+            table.on('select', function(e, dt, type, indexes) {
+              if (type === 'row') {
+                var data = table.rows(indexes).data().pluck('id');
+                console.log(indexes);
+                // do something with the ID of the selected items
+              }
+            });
+          });
+        });
+      </script>
+      <script>
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+          var words = text.split(" ");
+          var line = "";
+          for (var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + " ";
+            var metrics = context.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+              context.fillText(line, x, y);
+              line = words[n] + " ";
+              y += lineHeight;
+            } else {
+              line = testLine;
+            }
+          }
+          context.fillText(line, x, y);
+        }
+        var read_keyword = function() {
+          d3.csv(
+            "https://raw.githubusercontent.com/iatechicken/temp_repo/master/singlecsv.csv",
+            function(data) {
+              featuresList = [];
+              data.forEach(function(d, i) {
+                d.keyword = d.word;
+                featuresList.push([d.keyword]);
+              });
+              return featuresList;
+            }
+          );
+        };
+        var read_text = function(read_keyword) {
+          d3.json(
+            "https://raw.githubusercontent.com/iatechicken/temp_repo/master/test_with_scores.json",
+            function(error, data) {
+              if (error) {
+                console.log("There's an error");
+              }
+              window.temp_array = [];
+              data.forEach(function(d, i) {
+                d.index = +d.index;
+                for (i in featuresList) {
+                  d.Text = d.Text.replace(
+                    featuresList[i][0],
+                    '<span style="background-color: #FFFF00">' +
+                    featuresList[i][0] +
+                    "</span>"
+                  );
+                }
+                temp_array.push([d.index, d.Text]);
+              });
+            }
+          );
+        };
+        var canvas = document.getElementById("highlight_c");
+        var ctx = canvas.getContext("2d");
+        var maxWidth = 400;
+        var lineHeight = 25;
+        var x = (canvas.width - maxWidth) / 2;
+        var y = 60;
+        // currently hardcoded to the first example.
+        var text = read_text(read_keyword());
+        ctx.font = "15px Arial";
+        wrapText(ctx, text, x, y, maxWidth, lineHeight);
+      </script>
 
-
-    </div>
-    <!-- /#page-content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
 </body>
 
 </html>
