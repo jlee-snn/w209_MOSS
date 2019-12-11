@@ -92,6 +92,7 @@ def upload_file():
         # switching from csv to json
 		test_with_scores.to_json(orient = 'records', path_or_buf = "/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.json")
 		#d3_tbl = test_with_scores.to_dict(orient='records')
+		test_with_scores.to_json(orient = 'records', path_or_buf = "/Users/Joseph_S_Lee/Repos/test_moss/uploads/test_with_scores.json")
 
 		d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 6))
 		                  for val in test_with_scores['index'].values[10:13])
