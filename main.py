@@ -27,7 +27,7 @@ import pickle
 from sklearn.externals import joblib
 from flask import Flask, jsonify, request, render_template
 import lime
-
+#UPLOAD_FOLDER = '/Users/richardryu/desktop/can/MIDS/w209_MOSS/uploads'
 UPLOAD_FOLDER = '/Users/Joseph_S_Lee/Repos/test_moss/uploads'
 
 pd.set_option('display.max_colwidth', -1)

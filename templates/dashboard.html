@@ -395,11 +395,18 @@ The above copyright notice and this permission notice shall be included in all c
                             {
                                 text: 'Get selected data',
                                 action: function () {
+                                  function markWords(text, searchWordArray) {
+                                    return text.split(" ").map(word => {
+                                      let rawWord = word.toLowerCase().replace(/\W/g, ""); //lowercase and remove punctuation (except underscore...)
+                                      if (searchWordArray.includes(rawWord)) return "<mark>" + word + "</mark>";
+                                      return word;
+                                    }).join(" ");
+                                  };
                                     var rows = table.rows({ selected: true }).data()[0][1];
                                     var doc = table.rows({ selected: true }).data()[0][0];
                                     events.empty()
                                     events.append('<div> <p> DOC ID: '+doc+'</p></div>' );
-                                    events.append('<div>'+rows+'</div>' );
+                                    events.append('<div>'+markWords(rows, ["to", "university", "ted", "christianity"])+'</div>' );
                                     var obj = { docID: doc};
                                     var myJSON = JSON.stringify(obj);
                                     $.ajax({
