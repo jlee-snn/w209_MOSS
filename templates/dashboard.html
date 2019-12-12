@@ -35,6 +35,48 @@ The above copyright notice and this permission notice shall be included in all c
   <link href="/static/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/static/demo/demo.css" rel="stylesheet" />
+
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+  <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+  <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+  <script>
+  window.onload = function() {
+
+  var dataPoints = [];
+
+  var chart = new CanvasJS.Chart("chartContainer", {
+  	animationEnabled: true,
+  	theme: "light2",
+  	title: {
+  		text: "Daily Sales Data"
+  	},
+  	axisY: {
+  		title: "Units",
+  		titleFontSize: 24
+  	},
+  	data: [{
+  		type: "column",
+  		yValueFormatString: "#,### Units",
+  		dataPoints: dataPoints
+  	}]
+  });
+
+  function addData(data) {
+  	for (var i = 0; i < data.length; i++) {
+  		dataPoints.push({
+  			x: new Date(data[i].date),
+  			y: data[i].units
+  		});
+  	}
+  	chart.render();
+
+  }
+
+  $.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales-data.json", addData);
+
+  }
+  </script>
 </head>
 
 <body class="">
@@ -112,22 +154,23 @@ The above copyright notice and this permission notice shall be included in all c
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h4 class="card-title">Simplifying Model interpretability for Data Scientists</h5>
+                <h5 class="card-title">Simplifying Model interpretability for Data Scientists</h5>
               </div>
-              <div class="card-body">
+              <div class="card-body ">
                 <p>Model interpretability is a common challenge that many data scientists face, especially with black box models such as neural networks and decision trees. To help address this, the MOSS dashboard provides visualizations from the data results that are provided by LIME (Local Interpretable Model-agnostic Explanations), a novel explanation technique that explains the prediction of any classifier in an interpretable and faithful manner by learning a interpretable model locally around the prediction.</p>
+
                 <p>To do this, our proof-of-concept dashboard tool ingests a binary classification model for text classification on whether the email is about Christianity or Atheism and relevant test data and leveraging the LIME python library, displays its results in a human-readable manner. Below are instructions to do this:</p>
-                <ol>
-                  <li>Change the name of target variable to “target”</li>
-                  <li>Select and load in a model pickle file and csv test data</li>
-                  <li>Interpret dashboard results</li>
-                </ol>
+
+                <li>Change the name of target variable to “target”</li>
+                <li>Select and load in a model pickle file and csv test data</li>
+                <li>Interpret dashboard results</li>
+
+                <p></p>
                 <p>The dashboard is divided into 3 sections:</p>
-                <ol>
-                  <li>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism</li>
-                  <li>The unstructured text from the test data with key words highlighted in the top right</li>
-                  <li>A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</li>
-              </ol>
+
+                <p>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism
+                The unstructured text from the test data with key words highlighted in the top right
+                A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</p>
               </div>
               <div class="card-footer ">
                 <hr>
@@ -153,8 +196,11 @@ The above copyright notice and this permission notice shall be included in all c
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Model Accuracy</p>
-                      <p class="card-title">0%
+                      <p class="card-title">
                         <p>
+                    <p><font size="3">{{ accuracy }}</font></p>
+                        </p>
+                        </p>
                     </div>
                   </div>
                 </div>
@@ -179,8 +225,9 @@ The above copyright notice and this permission notice shall be included in all c
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Model Precision</p>
-                      <p class="card-title">0%
-                        <p>
+                      <p class="card-title">
+                        <p><font size="3">{{ precision }}</font></p>
+                        </p>
                     </div>
                   </div>
                 </div>
@@ -205,8 +252,9 @@ The above copyright notice and this permission notice shall be included in all c
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Model Recall</p>
-                      <p class="card-title">0%
-                        <p>
+                      <p class="card-title">
+                            <p><font size="3">{{ recall }}</font></p>
+                        </p>
                     </div>
                   </div>
                 </div>
@@ -231,8 +279,11 @@ The above copyright notice and this permission notice shall be included in all c
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Type of Model</p>
-                      <p class="card-title"> None
+                      <p class="card-title">
                         <p>
+                          <p><font size="2">{{ text }}</font></p>
+                      </p>
+
                     </div>
                   </div>
                 </div>
@@ -287,7 +338,21 @@ The above copyright notice and this permission notice shall be included in all c
                 <p class="card-category">View selected text from the data table</p>
               </div>
               <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
+                <div class="container-fluid">
+
+                  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+                  <div class="chart" id="bargraph"> </div>
+
+                      <script type="text/javascript">
+                        var chartData = {{ data | safe }};
+                        console.log(chartData);
+                      </script>
+
+
+
+
+               </div>
               </div>
               <div class="card-footer">
                 <div class="chart-legend">
@@ -306,37 +371,59 @@ The above copyright notice and this permission notice shall be included in all c
                 <h5 class="card-title">Data Viewer</h5>
                 <p class="card-category">Table of loaded test set</p>
               </div>
-              <div class="card-body ">
-                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+              <div class="card-body">
+                <div id="events">
+        					Row selected count - new information added at the top
+        				</div>
+                <div>
+                    {% block tables %}
+                    {{tables|safe}}
+                    {% endblock %}
+                </div>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+                <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" type="text/javascript"></script>
+                <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js" type="text/javascript"></script>
+                <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+                <script type="text/javascript">
+                  $(document).ready(function() {
+                    var events = $('#events');
+                    var table = $('#example').DataTable( {
+                        dom: 'Bfrtip',
+                        select: true,
+                        buttons: [
+                            {
+                                text: 'Get selected data',
+                                action: function () {
+                                    var rows = table.rows({ selected: true }).data()[0][1];
+                                    var doc = table.rows({ selected: true }).data()[0][0];
+                                    events.empty()
+                                    events.append('<div> <p> DOC ID: '+doc+'</p></div>' );
+                                    events.append('<div>'+rows+'</div>' );
+                                    var obj = { docID: doc};
+                                    var myJSON = JSON.stringify(obj);
+                                    $.ajax({
+                                      type : "POST",
+                                      url : '/get_doc_id',
+                                      data: myJSON,
+                                      contentType: 'application/json',
+                                      dataType: "json",
+                                      success: function(result) {
+                                          console.log(result);
+                                      }
+                                  });
+                                }
+                            }
+                        ]
+                    } );
 
-                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-                <script>
-                  $(document).ready( function () {
-                      $('#textdata').DataTable();
-                  } );
+                } );
                 </script>
-                <table id="textdata" class="display" style="width:100%">
-                  <thead>
-                      <tr>
-                          <th>First name</th>
-                          <th>Last name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                      </tr>
-                  </thead>
-                  <tfoot>
-                      <tr>
-                          <th>First name</th>
-                          <th>Last name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                      </tr>
-                  </tfoot>
-              </table>
+
+
+
+
+
               </div>
               <div class="card-footer ">
                 <hr>
