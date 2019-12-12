@@ -27,7 +27,7 @@ from sklearn.externals import joblib
 from flask import Flask, jsonify, request, render_template
 import lime
 #UPLOAD_FOLDER = '/Users/richardryu/desktop/can/MIDS/w209_MOSS/uploads'
-UPLOAD_FOLDER = '/Users/Joseph_S_Lee/Repos/test_moss/uploads'
+UPLOAD_FOLDER = './uploads'
 
 pd.set_option('display.max_colwidth', -1)
 
@@ -129,7 +129,7 @@ ALLOWED_DATA_EXTENSIONS = set(['txt', 'csv'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def explain_frame(df,class_names,model,idx = 100,num_features =6):
+def explain_frame(df,class_names,model,idx = 100,num_features =5):
 	explainer = LimeTextExplainer(class_names=class_names)
 	exp = explainer.explain_instance(df["Text"].iloc[idx], model.predict_proba, num_features=num_features)
 	return exp.as_list()
@@ -256,8 +256,28 @@ def upload_file():
 
 		c = make_pipeline(vectorizer, model)
 
-		d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 6))
+		d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 5))
 		                  for val in test_with_scores.index[0:5])
+
+		master_words = []
+		master_weights = []
+		for i in d:
+			print(d.get(i))
+			tmp = d.get(i)
+			word_list1 = []
+			weight_list1 = []
+			for ele in tmp:
+				word,weight = ele
+				word_list1.append(ele)
+				weight_list1.append(weight)
+				print(word)
+				print(weight)
+			master_words.append(word_list1)
+			master_weights.append(word_list1)
+		words_table = pd.DataFrame(master_words)
+		words_table.columns = ["LimeFeature1","LimeFeature2", "LimeFeature3","LimeFeature4","LimeFeature5"]
+		#weights_table = pd.DataFrame(master_weights)
+		#weights_table.columns = ["LimeWeight1","LimeWeight2", "LimeWeight3","LimeWeight4","LimeWeight5"]
 
 		jsonoutput = json.dumps(d)
 		f = open("lime_by_row_example_1_20subset.json","w")
@@ -270,19 +290,18 @@ def upload_file():
 		content=open("./uploads/test_with_scores.csv", 'r').read()
 		content2=open("lime_by_row_example_1_20subset.json", 'r').read()
 
-		html_object = test_with_scores.to_html(table_id="example",classes = "display")
+		print(test_with_scores.shape)
+		print(words_table.shape)
+		new_test_with_scores = pd.concat([test_with_scores,words_table],axis = 1)
+		html_object = new_test_with_scores.to_html(table_id="example",classes = "display")
 		clean_html = html_object.replace("\n","")
-		#clean_html = clean_html.replace("\\[.*?\\]","")
-
-		#chart_data = json.dumps(master_dict, indent=2)
-		#data = {'chart_data': chart_data}
 
 		# First rows
 		var_frame = pd.DataFrame()
 		var_frame["Feature"] = vectorizer.vocabulary_.keys()
 		var_frame["Weight"] = model.feature_importances_
-		var_frame = var_frame.sort_values("Weight",ascending = False).head(20).reset_index(drop = True)
-		print(var_frame)
+		var_frame = var_frame.sort_values("Weight",ascending = False).head(30).reset_index(drop = True)
+		print(var_frame["Feature"].values)
 
 		#first_row_example = master_dict.get("1")
 
@@ -290,6 +309,8 @@ def upload_file():
             y=var_frame["Feature"],
             x=var_frame["Weight"],
             orientation='h'))
+
+		fig.update_layout(showlegend=False)
 
 		graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 

@@ -77,6 +77,20 @@ The above copyright notice and this permission notice shall be included in all c
 
   }
   </script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+    $("#btnFetch").click(function() {
+      // disable button
+      $(this).prop("disabled", true);
+      // add spinner to button
+      $(this).html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+      );
+    });
+});
+ </script>
+
 </head>
 
 <body class="">
@@ -85,19 +99,6 @@ The above copyright notice and this permission notice shall be included in all c
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="../assets/img/logo-small.png">
-          </div>
-        </a>
-        <a href="" class="simple-text logo-normal">
-          MOSS
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
-        </a>
-      </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
@@ -157,14 +158,15 @@ The above copyright notice and this permission notice shall be included in all c
 
                 <li>Change the name of target variable to “target”</li>
                 <li>Select and load in a model pickle file and csv test data</li>
+                <li>Please upload vectorizer if you are implementing a language model</li>
                 <li>Interpret dashboard results</li>
 
                 <p></p>
                 <p>The dashboard is divided into 3 sections:</p>
 
-                <p>LIME output horizontal bar chart in the top left that for one specific input text from the test data that shows the impact (weighting) of key words in text towards whether it is related to Christianity or Atheism
-                The unstructured text from the test data with key words highlighted in the top right
-                A table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the above two sections update to reflect that text</p>
+                <p>First section is the info boxes that convey general information about the model. </p>
+                <p>Second section has the uploading artifacts and a dynamic display of the variable importance (top 30). </p>
+                <p>Finally, at the bottom is a table of all test data text records with index and their model output probabilities of being about Christianity or Atheism. By selecting a record in this table, the text is highlighted and generated above the table.</p>
               </div>
               <div class="card-footer ">
                 <hr>
@@ -311,6 +313,11 @@ The above copyright notice and this permission notice shall be included in all c
         						{% endif %}
         					{% endwith %}
         				</p>
+
+
+               <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+
                 <form method="post" action="/" enctype="multipart/form-data">
         						<dl>
         						<p>
@@ -318,9 +325,14 @@ The above copyright notice and this permission notice shall be included in all c
         						</p>
         						</dl>
         						<p>
+
         						<button type="submit" id="btnFetch" class="btn btn-primary mb-2">Submit</button>
         					</p>
+                  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+                  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
         				</form>
+
                 <canvas id="formUpload"></canvas>
               </div>
             </div>
@@ -328,8 +340,8 @@ The above copyright notice and this permission notice shall be included in all c
           <div class="col-md-8">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-title">Text Scrutinizer</h5>
-                <p class="card-category">View selected text from the data table</p>
+                <h5 class="card-title">Variable Importance</h5>
+                <p class="card-category">Top 20 Features from Random Forest Classifier</p>
               </div>
               <div class="card-body">
                 <div class="container-fluid">
@@ -402,9 +414,32 @@ The above copyright notice and this permission notice shall be included in all c
                                   };
                                     var rows = table.rows({ selected: true }).data()[0][1];
                                     var doc = table.rows({ selected: true }).data()[0][0];
+
+                                    var l1 = table.rows({ selected: true }).data()[0][6];
+                                    var l2 = table.rows({ selected: true }).data()[0][7];
+                                    var l3 = table.rows({ selected: true }).data()[0][8];
+                                    var l4 = table.rows({ selected: true }).data()[0][9];
+                                    var l5 = table.rows({ selected: true }).data()[0][10];
                                     events.empty()
-                                    events.append('<div> <p> DOC ID: '+doc+'</p></div>' );
-                                    events.append('<div>'+markWords(rows, ["to", "university", "ted", "christianity"])+'</div>' );
+                                    events.append('<div> <p> <b>DOC ID: </b>'+doc+'</p></div>' );
+                                    events.append('<div> <p> <b>Lime Feature 1: </b>'+l1+'</p></div>' );
+                                    events.append('<div> <p> <b>Lime Feature 2: </b>'+l2+'</p></div>' );
+                                    events.append('<div> <p> <b>Lime Feature 3: </b>'+l3+'</p></div>' );
+                                    events.append('<div> <p> <b>Lime Feature 4: </b>'+l4+'</p></div>' );
+                                    events.append('<div> <p> <b>Lime Feature 5: </b>'+l5+'</p></div>' );
+
+                                    events.append('<div> <p> </p> </div>' );
+
+                                    events.append('<div> <b>Raw Text: </b></div>' );
+                                    events.append('<div>'+markWords(rows, ["university", "Christian", "christianity","homosexuality","extremism","Rudolf",
+                                    "avoid",
+                                    "lexicons",
+                                    "religion",
+                                    "suffers",
+                                    "evolution",
+                                    "homosexual"]
+
+                                      )+'</div>' );
                                     var obj = { docID: doc};
                                     var myJSON = JSON.stringify(obj);
                                     $.ajax({
