@@ -107,12 +107,6 @@ The above copyright notice and this permission notice shall be included in all c
             </a>
           </li>
           <li>
-            <a href="./guide.html">
-              <i class="nc-icon nc-single-02"></i>
-              <p>Guide</p>
-            </a>
-          </li>
-          <li>
             <a href="./tables.html">
               <i class="nc-icon nc-tile-56"></i>
               <p>About</p>
@@ -342,12 +336,16 @@ The above copyright notice and this permission notice shall be included in all c
 
                   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-                  <div class="chart" id="bargraph"> </div>
+                  <div class="chart" id="bargraph">
 
-                      <script type="text/javascript">
-                        var chartData = {{ data | safe }};
-                        console.log(chartData);
+                      <script>
+                          var graphs = {{plot | safe}};
+                          Plotly.plot('bargraph',graphs,{});
                       </script>
+
+                  </div>
+
+
 
 
 

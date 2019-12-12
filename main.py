@@ -2,7 +2,6 @@ from flask import Flask
 import os
 import pandas as pd
 #import magic
-import plotly.express as px
 from flask import jsonify
 import plotly.graph_objects as go
 import plotly
@@ -159,8 +158,11 @@ def get_doc_id():
     x = int(data.get('docID'))
     print(type(x))
     string_x = str(x)
+
+    return jsonify(string_x)
+
     #docID = data.get('docID')
-    return redirect('upload.html')
+    #return redirect('upload.html')
 
 @app.route('/', methods=['POST'])
 def upload_file():
@@ -227,27 +229,35 @@ def upload_file():
 		#print(predictions_test)
 		from sklearn.metrics import recall_score
 		recall_score = recall_score(target_data, predictions_test, average='macro')
-		class_names = ['atheism', 'christian']
+		class_names = ['Negative Class', 'Positive Class']
 
 		test_with_scores = pd.DataFrame()
 		test_with_scores["Text"] = text_data
 		test_with_scores[class_names[0]] = class1
 		test_with_scores[class_names[1]] = class2
+		test_with_scores["True_Label"] = target_data
+		test_with_scores["Predicted_Label"] = predictions_test
+		test_with_scores = test_with_scores.iloc[0:5] # GLobal cutoff
+
 
 
 
 		#print(d3_tbl["Text"])
 
 
+
+
 		#test_with_scores = test_with_scores.reset_index() # give new index
 		test_with_scores.to_csv("./uploads/test_with_scores.csv")
+
+
 		print(test_with_scores.head())
 		#d3_tbl = test_with_scores.to_dict(orient='records')
 
 		c = make_pipeline(vectorizer, model)
 
 		d = dict((int(val), explain_frame(df = test_with_scores, class_names = class_names, model = c, idx = val, num_features = 6))
-		                  for val in test_with_scores.index[1:3])
+		                  for val in test_with_scores.index[0:5])
 
 		jsonoutput = json.dumps(d)
 		f = open("lime_by_row_example_1_20subset.json","w")
@@ -268,11 +278,17 @@ def upload_file():
 		#data = {'chart_data': chart_data}
 
 		# First rows
-		first_row_example = master_dict.get("1")
+		var_frame = pd.DataFrame()
+		var_frame["Feature"] = vectorizer.vocabulary_.keys()
+		var_frame["Weight"] = model.feature_importances_
+		var_frame = var_frame.sort_values("Weight",ascending = False).head(20).reset_index(drop = True)
+		print(var_frame)
+
+		#first_row_example = master_dict.get("1")
 
 		fig = go.Figure(go.Bar(
-            y=first_row_df["Word"],
-            x=first_row_df["Weight"],
+            y=var_frame["Feature"],
+            x=var_frame["Weight"],
             orientation='h'))
 
 		graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
