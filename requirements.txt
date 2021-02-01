@@ -15,5 +15,5 @@ bcrypt==3.1.5
 fabric==2.4.0
 Jinja2==2.10
 SQLAlchemy==1.2.16
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 WTForms==2.2.1
